@@ -16,9 +16,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
+
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -105,6 +108,24 @@ public class CreatePhotoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_photo);
 
+        Toolbar toolbarLayout = findViewById(R.id.toolbar_layout);
+        setSupportActionBar(toolbarLayout);
+
+        // Enable the back button
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        // Set the title
+        getSupportActionBar().setTitle("Review");
+
+        // Set the back button click listener
+        ImageButton backButton = toolbarLayout.findViewById(R.id.back_button);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         boolean modoEdicion = getIntent().getBooleanExtra("modo_edicion", false);
 
