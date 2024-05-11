@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,10 +19,11 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.android.material.appbar.AppBarLayout;
+
 
 
 public class MainActivity extends AppCompatActivity{
-
     Button btn_add, btn_add_fragment, btn_exit, btn_photos;
     PetAdapter mAdapter;
     RecyclerView mRecycler;
@@ -39,6 +41,9 @@ public class MainActivity extends AppCompatActivity{
         mFirestore = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
         search_view = findViewById(R.id.search);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         btn_add = findViewById(R.id.btn_add);
         btn_add_fragment = findViewById(R.id.btn_add_fragment);
