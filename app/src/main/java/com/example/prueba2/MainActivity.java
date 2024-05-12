@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         userDropdown = findViewById(R.id.user_dropdown);
         signout_btn = findViewById(R.id.signout_btn);
 
-        setToolbarTitle("Restaurantes");
+        setToolbarTitle("Inicio");
         setBackButtonVisibility(true);
         setHomeButtonVisibility(false);
 
