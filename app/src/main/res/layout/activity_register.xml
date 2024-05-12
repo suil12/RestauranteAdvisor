@@ -62,6 +62,24 @@
                 android:hint="Contraseña"
                 android:inputType="textPassword" />
 
+            <EditText
+                android:id="@+id/telefono"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:layout_marginTop="8dp"
+                android:hint="Teléfono"
+                android:inputType="phone" />
+
+            <EditText
+                android:id="@+id/codigo_postal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:layout_marginTop="8dp"
+                android:hint="Código Postal"
+                android:inputType="textPostalAddress" />
+
             <Button
                 android:id="@+id/btn_registro"
                 android:layout_width="wrap_content"
