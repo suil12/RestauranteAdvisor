@@ -51,6 +51,11 @@
             android:name=".PhotoDetailActivity"
             android:label="@string/app_name"/>
 
+        <activity
+            android:name=".ViewRestaurantActivity"
+            android:exported="false"/>
+
+
     </application>
 
 </manifest>

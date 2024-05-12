@@ -23,7 +23,7 @@ import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    Button btn_register;
+    Button btn_register, btn_login;
     EditText name, email, password;
 
     FirebaseFirestore mFirestore;
@@ -41,6 +41,15 @@ public class RegisterActivity extends AppCompatActivity {
         email = findViewById(R.id.correo);
         password = findViewById(R.id.contrasena);
         btn_register = findViewById(R.id.btn_registro);
+        btn_login = findViewById(R.id.btn_login);
+
+
+        btn_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+            }
+        });
 
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +67,9 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
+
+
+
     private void registerUser(String nameUser, String emailUser, String passUser) {
         mAuth.createUserWithEmailAndPassword(emailUser, passUser).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -73,7 +85,7 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void unused) {
                         finish();
-                        startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                        startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                         Toast.makeText(RegisterActivity.this, "Usuario registrado con éxito", Toast.LENGTH_SHORT).show();
                     }
                 }).addOnFailureListener(new OnFailureListener() {

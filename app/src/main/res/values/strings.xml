@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Prueba2</string>
     <string name="back_button">Back</string>
+    <string name="page_title">Title</string>
+    <string name="username">username</string>
+
 </resources>

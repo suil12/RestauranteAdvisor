@@ -6,9 +6,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.SearchView;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,11 +20,12 @@ import com.example.prueba2.adapter.PetAdapter;
 import com.example.prueba2.model.Pet;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     Button btn_add, btn_add_fragment, btn_exit, btn_photos;
     PetAdapter mAdapter;
@@ -29,6 +34,14 @@ public class MainActivity extends AppCompatActivity{
     FirebaseAuth mAuth;
     SearchView search_view;
     Query query;
+
+
+    // Variables para el toolBar:
+    Toolbar toolbar;
+    ImageButton homeButton, backButton, signout_btn;
+    TextView titleText, userNameText;
+    Spinner userDropdown;
+
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
@@ -44,6 +57,52 @@ public class MainActivity extends AppCompatActivity{
         btn_add_fragment = findViewById(R.id.btn_add_fragment);
         btn_exit = findViewById(R.id.btn_close);
         btn_photos = findViewById(R.id.btn_photos);
+
+        // ToolBar:
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        backButton = findViewById(R.id.back_button);
+        homeButton = findViewById(R.id.home_button);
+        titleText = findViewById(R.id.title_text);
+        userNameText = findViewById(R.id.user_name);
+        userDropdown = findViewById(R.id.user_dropdown);
+        signout_btn = findViewById(R.id.signout_btn);
+
+        setToolbarTitle("Restaurantes");
+        setBackButtonVisibility(true);
+        setHomeButtonVisibility(false);
+
+        // Verificar si el usuario está autenticado y mostrar su nombre en el dropdown si es así
+        if (usuarioEstaAutenticado()) {
+            String nombreUsuario = obtenerNombreDeUsuario();
+            userNameText.setText("Hola " + nombreUsuario);
+            userNameText.setVisibility(View.VISIBLE);
+            userDropdown.setVisibility(View.VISIBLE);
+            setSignOutButtonVisibility(true);
+        } else{
+            userNameText.setVisibility(View.GONE);
+            userDropdown.setVisibility(View.GONE);
+            setSignOutButtonVisibility(false);
+        }
+
+
+        // Configurar el botón de retroceso para cerrar la actividad actual
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        signout_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAuth.signOut();
+                finish();
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            }
+        });
 
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,5 +189,54 @@ public class MainActivity extends AppCompatActivity{
     protected void onStop() {
         super.onStop();
         mAdapter.stopListening();
+    }
+
+
+    //ToolBAR Methods:
+
+    // Método para establecer el título de la Toolbar
+    protected void setToolbarTitle(String title) {
+        titleText.setText(title);
+    }
+    // Método para mostrar u ocultar el botón de retroceso
+    protected void setBackButtonVisibility(boolean visible) {
+        if (visible) {
+            backButton.setVisibility(View.VISIBLE);
+        } else {
+            backButton.setVisibility(View.GONE);
+        }
+    }
+
+    // Método para mostrar u ocultar el botón de cerrar session
+    protected void setSignOutButtonVisibility(boolean visible) {
+        if (visible) {
+            signout_btn.setVisibility(View.VISIBLE);
+        } else {
+            signout_btn.setVisibility(View.GONE);
+        }
+    }
+    // Método para mostrar u ocultar el botón de inicio
+    protected void setHomeButtonVisibility(boolean visible) {
+        if (visible) {
+            homeButton.setVisibility(View.VISIBLE);
+        } else {
+            homeButton.setVisibility(View.GONE);
+        }
+    }
+
+    // Método para obtener el nombre de usuario
+    protected String obtenerNombreDeUsuario() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            return user.getDisplayName();
+        } else {
+            return "Usuario"; // Si no se puede obtener el nombre de usuario, devolver un valor predeterminado
+        }
+    }
+
+    // Método para verificar si el usuario está autenticado
+    protected boolean usuarioEstaAutenticado() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        return user != null; // Devuelve true si el usuario está autenticado, false de lo contrario
     }
 }

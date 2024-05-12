@@ -1,14 +1,10 @@
 package com.example.prueba2;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.content.Context;
-import android.os.AsyncTask;
 
 import android.util.Log;
 import android.view.Gravity;
@@ -33,13 +29,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import com.example.prueba2.adapter.FotoAdapter;
-import com.example.prueba2.model.Foto;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -47,19 +40,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
-
-
-
-
-
-
-
-
 
 public class CreatePhotoActivity extends AppCompatActivity {
 
@@ -108,37 +92,14 @@ public class CreatePhotoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_photo);
 
-        Toolbar toolbarLayout = findViewById(R.id.toolbar_layout);
-        setSupportActionBar(toolbarLayout);
 
-        // Enable the back button
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        // Set the title
-        getSupportActionBar().setTitle("Review");
 
-        // Set the back button click listener
-        ImageButton backButton = toolbarLayout.findViewById(R.id.back_button);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+
 
         boolean modoEdicion = getIntent().getBooleanExtra("modo_edicion", false);
 
-        this.setTitle("Lugares");
-        ActionBar actionBar = getSupportActionBar();
 
-
-
-
-
-        if(actionBar != null){
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
 
         progressDialog = new ProgressDialog(this);
         String id = getIntent().getStringExtra("id_foto");
@@ -435,6 +396,7 @@ public class CreatePhotoActivity extends AppCompatActivity {
                 String preciPhoto = documentSnapshot.getString("precio");
                 //String photoPet = documentSnapshot.getString("photo");
                 String photoPet = documentSnapshot.getString("photo");
+
 
 
 
