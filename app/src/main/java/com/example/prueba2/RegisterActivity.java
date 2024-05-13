@@ -16,7 +16,10 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.auth.UserProfileChangeRequest;
+
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -73,16 +76,32 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            String id = mAuth.getCurrentUser().getUid();
-                            User user = new User(nameUser, emailUser, passUser, phoneUser, postalCodeUser);
-                            user.setId(id);
-                            saveUserToFirestore(user);
+                            FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(nameUser) // Establece el nombre de usuario
+                                    .build();
+
+                            firebaseUser.updateProfile(profileUpdates) // Actualiza el perfil del usuario con el nombre
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                String id = firebaseUser.getUid();
+                                                User user = new User(nameUser, emailUser, passUser, phoneUser, postalCodeUser);
+                                                user.setId(id);
+                                                saveUserToFirestore(user);
+                                            } else {
+                                                Toast.makeText(RegisterActivity.this, "Error al actualizar el nombre de usuario: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
                         } else {
                             Toast.makeText(RegisterActivity.this, "Error al registrar: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
+
 
     private void saveUserToFirestore(User user) {
         mFirestore.collection("users").document(user.getId()).set(user)
