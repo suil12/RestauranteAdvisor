@@ -2,25 +2,28 @@ package com.example.prueba2.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RatingBar;
+
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prueba2.R;
 import com.example.prueba2.model.Restaurant;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.util.List;
 public class RestaurantAdapter extends FirebaseRecyclerAdapter<Restaurant, RestaurantAdapter.resviewHolder> {
+    private OnItemClickListener mListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
+    }
 
     /**
      * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
@@ -35,12 +38,18 @@ public class RestaurantAdapter extends FirebaseRecyclerAdapter<Restaurant, Resta
 
     @Override
     protected void onBindViewHolder(@NonNull resviewHolder holder, int position, @NonNull Restaurant model) {
-
         holder.name.setText(model.getName());
         holder.phone.setText(model.getPhone());
         holder.address.setText(model.getAddress());
         holder.category.setText(model.getCategory());
-
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mListener != null) {
+                    mListener.onItemClick(position);
+                }
+            }
+        });
     }
 
     @NonNull
@@ -52,6 +61,7 @@ public class RestaurantAdapter extends FirebaseRecyclerAdapter<Restaurant, Resta
 
      static class resviewHolder extends RecyclerView.ViewHolder
     {
+        CardView cardView;
         TextView name, address, category, phone;
       //  ImageView img;
         public resviewHolder(@NonNull View itemView) {
@@ -61,6 +71,7 @@ public class RestaurantAdapter extends FirebaseRecyclerAdapter<Restaurant, Resta
             address=itemView.findViewById(R.id.textViewAddress);
             category=itemView.findViewById(R.id.textViewCategory);
             phone=itemView.findViewById(R.id.textViewPhone);
+            cardView=itemView.findViewById(R.id.cardViewRes);
         }
     }
 

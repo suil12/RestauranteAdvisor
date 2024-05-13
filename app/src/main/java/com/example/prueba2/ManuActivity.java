@@ -3,6 +3,7 @@ package com.example.prueba2;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -36,6 +37,26 @@ public class ManuActivity extends AppCompatActivity {
 
             adapter = new RestaurantAdapter(options);
             recview.setAdapter(adapter);
+
+            adapter.setOnItemClickListener(new RestaurantAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(int position) {
+                    // Ottieni il ristorante dalla posizione selezionata
+                    Restaurant selectedRestaurant = adapter.getItem(position);
+                    if (selectedRestaurant != null) {
+                        // Avvia l'attività ViewRestaurantActivity passando i dati del ristorante come extra
+                        Intent intent = new Intent(ManuActivity.this, ViewRestaurantActivity.class);
+                        intent.putExtra("restaurant_name", selectedRestaurant.getName());
+                        intent.putExtra("restaurant_phone", selectedRestaurant.getPhone());
+                        intent.putExtra("restaurant_address", selectedRestaurant.getAddress());
+                        intent.putExtra("restaurant_category", selectedRestaurant.getCategory());
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(ManuActivity.this, "Errore: impossibile ottenere i dati del ristorante", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
         }
     @Override
     protected void onStart() {
