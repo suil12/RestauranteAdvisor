@@ -5,6 +5,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import android.widget.ImageButton;
+import android.widget.Spinner;
+import android.widget.TextView;
+import androidx.appcompat.widget.Toolbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,6 +28,8 @@ public class ManuActivity extends AppCompatActivity {
     RecyclerView recview;
 
         private RestaurantAdapter adapter;
+
+
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
