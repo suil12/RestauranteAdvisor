@@ -1,6 +1,5 @@
 package com.example.prueba2.model;
 
-import java.util.ArrayList;
 
 public class Restaurant {
 
@@ -13,12 +12,12 @@ public class Restaurant {
 
     }
 
-    public Restaurant(String name, String phone, String category, String address, float rating) {
-        this.name = name;
-        this.phone = phone;
-        this.category = category;
-        this.address = address;
-        this.rating = rating;
+
+    public Restaurant(String name, String phone, String category, String address) {
+       this.name = name;
+       this.phone= phone;
+       this.category= category;
+       this.address= address;
     }
 
     /*// Métodos para agregar y calcular valoraciones de usuarios
@@ -43,9 +42,7 @@ public class Restaurant {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+
 
     public String getPhone() {
         return phone;
@@ -70,13 +67,6 @@ public class Restaurant {
     public void setCategory(String category) {
         this.category = category;
     }
-/*
-    public Float getRating() {
-        return rating;
-    }
 
-    public void setRating(Float rating) {
-        this.rating = rating;
-    }
-*/
+
 }
