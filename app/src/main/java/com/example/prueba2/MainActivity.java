@@ -92,9 +92,10 @@ public class MainActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                finish();
             }
         });
+
 
         signout_btn.setOnClickListener(new View.OnClickListener() {
             @Override

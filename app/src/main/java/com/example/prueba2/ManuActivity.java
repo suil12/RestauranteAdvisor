@@ -81,6 +81,14 @@ public class ManuActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // ToolBAR
+
+        backButton = findViewById(R.id.back_button);
+        homeButton = findViewById(R.id.home_button);
+        titleText = findViewById(R.id.title_text);
+        userNameText = findViewById(R.id.user_name);
+        userDropdown = findViewById(R.id.user_dropdown);
+        signout_btn = findViewById(R.id.signout_btn);
+
         setToolbarTitle("Restaurantes");
         setBackButtonVisibility(true);
         setHomeButtonVisibility(false);
