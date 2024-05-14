@@ -5,7 +5,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,15 +17,19 @@ import com.example.prueba2.model.Restaurant;
 import com.example.prueba2.model.Review;
 import com.example.prueba2.adapter.ReviewAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -43,6 +49,17 @@ public class ViewRestaurantActivity extends AppCompatActivity {
     private RecyclerView revview;
     private ReviewAdapter adapter;
     Restaurant restaurant;
+
+    // Variables para el toolBar:
+    Toolbar toolbar;
+    ImageButton homeButton, backButton, signout_btn;
+    TextView titleText, userNameText;
+    Spinner userDropdown;
+
+    String resName;
+
+    FirebaseFirestore mFirestore;
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +86,7 @@ public class ViewRestaurantActivity extends AppCompatActivity {
             String photoUrl = intent.getStringExtra("restaurant_photoUrl");
             String cordx = intent.getStringExtra("restaurant_cordX");
             String cordy = intent.getStringExtra("restaurant_cordY");
+            resName = name;
 
             // Imposta i dati nelle viste
             textViewName.setText(name);
@@ -147,6 +165,55 @@ public class ViewRestaurantActivity extends AppCompatActivity {
         });
 
 
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        // ToolBAR
+        mFirestore = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        backButton = findViewById(R.id.back_button);
+        homeButton = findViewById(R.id.home_button);
+        titleText = findViewById(R.id.title_text);
+        userNameText = findViewById(R.id.user_name);
+        userDropdown = findViewById(R.id.user_dropdown);
+        signout_btn = findViewById(R.id.signout_btn);
+
+        setToolbarTitle(resName);
+        setBackButtonVisibility(true);
+        setHomeButtonVisibility(false);
+
+        String nombreUsuario = obtenerNombreDeUsuario();
+        userNameText.setText("Hola " + nombreUsuario);
+
+        // Verificar si el usuario está autenticado y mostrar su nombre en el dropdown si es así
+        if (usuarioEstaAutenticado()) {
+            userNameText.setVisibility(View.VISIBLE);
+            userDropdown.setVisibility(View.VISIBLE);
+            setSignOutButtonVisibility(true);
+        } else{
+            userNameText.setVisibility(View.GONE);
+            userDropdown.setVisibility(View.GONE);
+            setSignOutButtonVisibility(false);
+        }
+
+
+        // Configurar el botón de retroceso para cerrar la actividad actual
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        signout_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAuth.signOut();
+                finish();
+                startActivity(new Intent(ViewRestaurantActivity.this, LoginActivity.class));
+            }
+        });
+
+
     }
     @Override
     protected void onStart() {
@@ -158,5 +225,61 @@ public class ViewRestaurantActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         adapter.stopListening();
+    }
+
+
+    //ToolBAR Methods:
+
+    // Método para establecer el título de la Toolbar
+    protected void setToolbarTitle(String title) {
+        titleText.setText(title);
+    }
+    // Método para mostrar u ocultar el botón de retroceso
+    protected void setBackButtonVisibility(boolean visible) {
+        if (visible) {
+            backButton.setVisibility(View.VISIBLE);
+        } else {
+            backButton.setVisibility(View.GONE);
+        }
+    }
+
+    // Método para mostrar u ocultar el botón de cerrar session
+    protected void setSignOutButtonVisibility(boolean visible) {
+        if (visible) {
+            signout_btn.setVisibility(View.VISIBLE);
+        } else {
+            signout_btn.setVisibility(View.GONE);
+        }
+    }
+    // Método para mostrar u ocultar el botón de inicio
+    protected void setHomeButtonVisibility(boolean visible) {
+        if (visible) {
+            homeButton.setVisibility(View.VISIBLE);
+        } else {
+            homeButton.setVisibility(View.GONE);
+        }
+    }
+
+    // Método para obtener el nombre de usuario o mostrar "Anónimo" si no está autenticado
+    protected String obtenerNombreDeUsuario() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user != null) {
+            String displayName = user.getDisplayName();
+            if (displayName != null && !displayName.isEmpty()) {
+                return displayName;
+            } else {
+                return "Anónimo";
+            }
+        } else {
+            return "Anónimo"; // Si no hay usuario autenticado, mostrar "Anónimo"
+        }
+    }
+
+
+    // Método para verificar si el usuario está autenticado
+    protected boolean usuarioEstaAutenticado() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        return user != null; // Devuelve true si el usuario está autenticado, false de lo contrario
     }
 }

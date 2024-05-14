@@ -81,7 +81,8 @@ public class ManuActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // ToolBAR
-
+        mFirestore = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
         backButton = findViewById(R.id.back_button);
         homeButton = findViewById(R.id.home_button);
         titleText = findViewById(R.id.title_text);
@@ -112,7 +113,7 @@ public class ManuActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                finish();
             }
         });
 
