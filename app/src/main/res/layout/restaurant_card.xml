@@ -42,6 +42,7 @@
                     android:id="@+id/textViewName"
                     android:textStyle="bold"
                     android:layout_width="wrap_content"
+                    android:drawablePadding="10dp"
                     android:layout_height="wrap_content"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
             </LinearLayout>
@@ -52,6 +53,7 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:drawablePadding="10dp"
                 app:drawableLeftCompat="@drawable/ic_phone" />
 
             <TextView
@@ -59,7 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
-
+                android:drawablePadding="10dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 app:drawableLeftCompat="@drawable/location_sign" />
 
@@ -68,7 +70,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                app:drawableLeftCompat="@drawable/ic_edit" />
+                app:drawableLeftCompat="@drawable/ic_tag"
+                android:drawablePadding="10dp" />
+
 
 
         </LinearLayout>

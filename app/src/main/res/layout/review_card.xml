@@ -30,6 +30,7 @@
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:drawablePadding="10dp"
                     app:drawableLeftCompat="@drawable/person_24" />
 
                 <TextView
@@ -38,6 +39,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textStyle="bold"
+                    android:drawablePadding="10dp"
                     app:drawableLeftCompat="@drawable/restaurant_icon" />
 
             <TextView
@@ -46,6 +48,7 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:drawablePadding="10dp"
                 app:drawableLeftCompat="@drawable/ic_phone" />
 
             <TextView
@@ -53,19 +56,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
-
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                app:drawableLeftCompat="@drawable/location_sign" />
+                android:drawablePadding="10dp"
+                app:drawableLeftCompat="@drawable/ic_comment" />
 
                 <RatingBar
                     android:id="@+id/ratingBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:longClickable="false"
                     android:numStars="5"
                     android:rating="3"
                     android:scaleX="0.5"
-                    android:scaleY="0.5"
-                    android:layout_marginStart="20dp"/>
+                    android:scaleY="0.5"/>
 
         </LinearLayout>
         </LinearLayout>

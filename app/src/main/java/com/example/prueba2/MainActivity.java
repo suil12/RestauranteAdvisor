@@ -30,8 +30,7 @@ public class MainActivity extends AppCompatActivity {
     Button btn_add, btn_add_fragment, btn_exit, btn_photos;
     PetAdapter mAdapter;
     RecyclerView mRecycler;
-    FirebaseFirestore mFirestore;
-    FirebaseAuth mAuth;
+
     SearchView search_view;
     Query query;
 
@@ -42,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
     TextView titleText, userNameText;
     Spinner userDropdown;
 
+    FirebaseFirestore mFirestore;
+    FirebaseAuth mAuth;
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
@@ -73,10 +74,10 @@ public class MainActivity extends AppCompatActivity {
         setBackButtonVisibility(true);
         setHomeButtonVisibility(false);
 
+        String nombreUsuario = obtenerNombreDeUsuario();
+        userNameText.setText("Hola " + nombreUsuario);
         // Verificar si el usuario está autenticado y mostrar su nombre en el dropdown si es así
         if (usuarioEstaAutenticado()) {
-            String nombreUsuario = obtenerNombreDeUsuario();
-            userNameText.setText("Hola " + nombreUsuario);
             userNameText.setVisibility(View.VISIBLE);
             userDropdown.setVisibility(View.VISIBLE);
             setSignOutButtonVisibility(true);
@@ -225,16 +226,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // Método para obtener el nombre de usuario
+    // Método para obtener el nombre de usuario o mostrar "Anónimo" si no está autenticado
     protected String obtenerNombreDeUsuario() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if (user != null) {
-            return user.getDisplayName();
+            String displayName = user.getDisplayName();
+            if (displayName != null && !displayName.isEmpty()) {
+                return displayName;
+            } else {
+                return "Anónimo";
+            }
         } else {
-            return "Usuario"; // Si no se puede obtener el nombre de usuario, devolver un valor predeterminado
+            return "Anónimo"; // Si no hay usuario autenticado, mostrar "Anónimo"
         }
     }
+
 
     // Método para verificar si el usuario está autenticado
     protected boolean usuarioEstaAutenticado() {
