@@ -4,7 +4,7 @@ package com.example.prueba2.model;
 public class Restaurant {
 
 
-    private String name, phone, address, category;
+    private String name, phone, address, category, photoUrl;
 
     private Float rating;
 
@@ -13,11 +13,12 @@ public class Restaurant {
     }
 
 
-    public Restaurant(String name, String phone, String category, String address) {
+    public Restaurant(String name, String phone, String category, String address, String photoUrl) {
        this.name = name;
        this.phone= phone;
        this.category= category;
        this.address= address;
+       this.photoUrl = photoUrl;
     }
 
     /*// Métodos para agregar y calcular valoraciones de usuarios
@@ -69,4 +70,11 @@ public class Restaurant {
     }
 
 
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
 }

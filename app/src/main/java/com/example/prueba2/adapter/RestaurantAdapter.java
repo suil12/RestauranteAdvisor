@@ -3,12 +3,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.prueba2.R;
 import com.example.prueba2.model.Restaurant;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -42,6 +44,11 @@ public class RestaurantAdapter extends FirebaseRecyclerAdapter<Restaurant, Resta
         holder.phone.setText(model.getPhone());
         holder.address.setText(model.getAddress());
         holder.category.setText(model.getCategory());
+
+        // Carga la imagen del restaurante utilizando Glide
+        Glide.with(holder.itemView.getContext())
+                .load(model.getPhotoUrl())
+                .into(holder.imageView);
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,6 +70,7 @@ public class RestaurantAdapter extends FirebaseRecyclerAdapter<Restaurant, Resta
     {
         CardView cardView;
         TextView name, address, category, phone;
+        ImageView imageView;
       //  ImageView img;
         public resviewHolder(@NonNull View itemView) {
             super(itemView);
@@ -72,6 +80,8 @@ public class RestaurantAdapter extends FirebaseRecyclerAdapter<Restaurant, Resta
             category=itemView.findViewById(R.id.textViewCategory);
             phone=itemView.findViewById(R.id.textViewPhone);
             cardView=itemView.findViewById(R.id.cardViewRes);
+            imageView = itemView.findViewById(R.id.imageViewPic);
+
         }
     }
 

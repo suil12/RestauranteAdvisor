@@ -3,8 +3,10 @@ package com.example.prueba2;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.prueba2.adapter.RestaurantAdapter;
 import com.example.prueba2.model.Restaurant;
 import com.example.prueba2.model.Review;
@@ -31,6 +33,8 @@ public class ViewRestaurantActivity extends AppCompatActivity {
     private TextView textViewPhone;
     private TextView textViewCategory;
     private TextView textViewAddress;
+
+    private ImageView imageViewPic;
     private RecyclerView revview;
     private ReviewAdapter adapter;
     Restaurant restaurant;
@@ -46,6 +50,7 @@ public class ViewRestaurantActivity extends AppCompatActivity {
         textViewPhone = findViewById(R.id.textViewPhone);
         textViewCategory = findViewById(R.id.textViewCategory);
         textViewAddress = findViewById(R.id.add);
+        imageViewPic = findViewById(R.id.imageViewPic);
 
 
 
@@ -56,12 +61,14 @@ public class ViewRestaurantActivity extends AppCompatActivity {
             String phone = intent.getStringExtra("restaurant_phone");
             String category = intent.getStringExtra("restaurant_category");
             String address = intent.getStringExtra("restaurant_address");
+            String photoUrl = intent.getStringExtra("restaurant_photoUrl");
 
             // Imposta i dati nelle viste
             textViewName.setText(name);
             textViewPhone.setText(phone);
             textViewCategory.setText(category);
             textViewAddress.setText(address);
+            Glide.with(imageViewPic.getContext()).load(photoUrl).into(imageViewPic);
         }
 
         String name = getIntent().getStringExtra("restaurant_name");
