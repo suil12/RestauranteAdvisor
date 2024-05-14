@@ -1,10 +1,13 @@
 package com.example.prueba2;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.prueba2.adapter.RestaurantAdapter;
@@ -34,6 +37,8 @@ public class ViewRestaurantActivity extends AppCompatActivity {
     private TextView textViewCategory;
     private TextView textViewAddress;
 
+    private Button btnGmaps;
+
     private ImageView imageViewPic;
     private RecyclerView revview;
     private ReviewAdapter adapter;
@@ -62,6 +67,8 @@ public class ViewRestaurantActivity extends AppCompatActivity {
             String category = intent.getStringExtra("restaurant_category");
             String address = intent.getStringExtra("restaurant_address");
             String photoUrl = intent.getStringExtra("restaurant_photoUrl");
+            String cordx = intent.getStringExtra("restaurant_cordX");
+            String cordy = intent.getStringExtra("restaurant_cordY");
 
             // Imposta i dati nelle viste
             textViewName.setText(name);
@@ -104,6 +111,42 @@ public class ViewRestaurantActivity extends AppCompatActivity {
             }
         });
     */
+
+
+        btnGmaps = findViewById(R.id.btn_gmaps);
+
+        btnGmaps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String cordX = getIntent().getStringExtra("restaurant_cordX");
+                String cordY = getIntent().getStringExtra("restaurant_cordY");
+
+                if (cordX != null && cordY != null) {
+                    double latitude = Double.parseDouble(cordX);
+                    double longitude = Double.parseDouble(cordY);
+
+                    String uriBegin = "geo:" + latitude + "," + longitude;
+                    String query = latitude + "," + longitude;
+                    String encodedQuery = Uri.encode(query);
+                    String uriString = uriBegin + "?q=" + encodedQuery + "&z=16";
+                    Uri uri = Uri.parse(uriString);
+
+                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, uri);
+                    mapIntent.setPackage("com.google.android.apps.maps"); // Utiliza la app de Google Maps si está instalada
+                    if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                        startActivity(mapIntent);
+                    } else {
+                        // Si Google Maps no está instalado, muestra un mensaje de error
+                        Toast.makeText(ViewRestaurantActivity.this, "Google Maps no está instalado en este dispositivo", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    // Si no se proporcionan las coordenadas, muestra un mensaje de error
+                    Toast.makeText(ViewRestaurantActivity.this, "No se encontraron coordenadas de ubicación", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
     }
     @Override
     protected void onStart() {

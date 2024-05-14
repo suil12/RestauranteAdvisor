@@ -58,7 +58,8 @@ public class ManuActivity extends AppCompatActivity {
                         intent.putExtra("restaurant_address", selectedRestaurant.getAddress());
                         intent.putExtra("restaurant_category", selectedRestaurant.getCategory());
                         intent.putExtra("restaurant_photoUrl", selectedRestaurant.getPhotoUrl());
-
+                        intent.putExtra("restaurant_cordX", selectedRestaurant.getCordX());
+                        intent.putExtra("restaurant_cordY", selectedRestaurant.getCordY());
                         startActivity(intent);
                     } else {
                         Toast.makeText(ManuActivity.this, "Errore: impossibile ottenere i dati del ristorante", Toast.LENGTH_SHORT).show();
