@@ -177,7 +177,7 @@ public class ViewRestaurantActivity extends AppCompatActivity {
         userDropdown = findViewById(R.id.user_dropdown);
         signout_btn = findViewById(R.id.signout_btn);
 
-        setToolbarTitle(resName);
+        setToolbarTitle("");
         setBackButtonVisibility(true);
         setHomeButtonVisibility(false);
 

@@ -137,9 +137,50 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+        setUpRecyclerView();
+        search_view();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    private void setUpRecyclerView() {
+        mRecycler = findViewById(R.id.recyclerViewSingle);
+        mRecycler.setLayoutManager(new LinearLayoutManager(this));
+        query = mFirestore.collection("pet");
 
+        FirestoreRecyclerOptions<Pet> firestoreRecyclerOptions =
+                new FirestoreRecyclerOptions.Builder<Pet>().setQuery(query, Pet.class).build();
+
+        mAdapter = new PetAdapter(firestoreRecyclerOptions, this, getSupportFragmentManager());
+        mAdapter.notifyDataSetChanged();
+        mRecycler.setAdapter(mAdapter);
+    }
+
+    private void search_view() {
+        search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                textSearch(s);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                textSearch(s);
+                return false;
+            }
+        });
+    }
+    public void textSearch(String s){
+        FirestoreRecyclerOptions<Pet> firestoreRecyclerOptions =
+                new FirestoreRecyclerOptions.Builder<Pet>()
+                        .setQuery(query.orderBy("name")
+                                .startAt(s).endAt(s+"~"), Pet.class).build();
+        mAdapter = new PetAdapter(firestoreRecyclerOptions, this, getSupportFragmentManager());
+        mAdapter.startListening();
+        mRecycler.setAdapter(mAdapter);
+
+    }
 
 
     @Override
