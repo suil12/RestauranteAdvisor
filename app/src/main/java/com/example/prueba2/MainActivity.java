@@ -96,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         signout_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
